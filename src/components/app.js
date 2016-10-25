@@ -14,7 +14,6 @@ class App extends Component {
 
   render() {
     const { reduxState, dispatch } = this.props;
-    console.log(reduxState)
     return (
       <div>
         <h1>{reduxState.message}</h1>
