@@ -2,32 +2,48 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { buttonPress } from '../actions/index';
 
-class App extends Component {
+export default class App extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      initialMessage: 'greeting',
-      inputValue: '',
+      inputDigit: '',
+      prevValue: 0,
+      nextValue: '',
+      displayValue: 0,
+      operator: '',
     };
   }
 
+  inputDigit(digit) {
+    this.setState({ inputDigit: digit });
+  }
+
+  // handleOperator(operator) {
+  //   const { displayValue } = this.state;
+  //   if (displayValue !== '') {
+  //     this.setState()
+  //   }
+  //
+  // }
+
+  add(prevNum, nextNum) {
+    this.setState({ result: prevNum + nextNum });
+  }
+
   render() {
-    const { reduxState, dispatch } = this.props;
+    const { displayValue, prevValue, inputDigit } = this.state;
     return (
       <div>
-        <h1>{reduxState.message}</h1>
-        <input value={this.state.inputValue} onChange={(e) => this.setState({ inputValue: e.target.value })} />
-        <button onClick={() => dispatch(buttonPress(this.state.inputValue))}>Button</button>
+        <div>{inputDigit}</div>
+        <div>
+          {console.log(this.state)}
+          <button onClick={() => this.inputDigit(1)}>1</button>
+          <button onClick={() => this.inputDigit(2)}>2</button>
+          <button onClick={() => this.handleOperator('+')}>+</button>
+          <button onClick={() => this.handleOperator('=')}>=</button>
+        </div>
       </div>
     );
   }
 }
-
-function mapStateToProps(state) {
-  return {
-    reduxState: state.messageReducer,
-  };
-}
-
-export default connect(mapStateToProps)(App);
