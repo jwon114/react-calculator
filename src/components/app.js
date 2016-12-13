@@ -7,35 +7,50 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      inputDigit: '',
-      prevValue: 0,
-      nextValue: '',
-      displayValue: 0,
+      prevValue: '',
+      waitingForOperand: false,
+      displayValue: '0',
       operator: '',
     };
   }
 
   inputDigit(digit) {
-    this.setState({ inputDigit: digit });
+    const { displayValue, waitingForOperand } = this.state;
+
+    if (waitingForOperand) {
+      this.setState({ displayValue: String(digit), waitingForOperand: false });
+    } else {
+      this.setState({ displayValue: displayValue === '0' ? String(digit) : displayValue + digit });
+    }
   }
 
-  // handleOperator(operator) {
-  //   const { displayValue } = this.state;
-  //   if (displayValue !== '') {
-  //     this.setState()
-  //   }
-  //
-  // }
+  handleOperator(operator) {
+    const { displayValue, prevValue } = this.state;
+
+    this.setState({ waitingForOperand: true });
+
+    if (prevValue === 0) {
+      this.setState({ operator, prevValue: displayValue });
+    } else {
+      switch (operator) {
+        case '+':
+          this.add(prevValue, displayValue);
+          break;
+        default:
+          this.setState({ displayValue: '' });
+      }
+    }
+  }
 
   add(prevNum, nextNum) {
-    this.setState({ result: prevNum + nextNum });
+    this.setState({ displayValue: prevNum + nextNum });
   }
 
   render() {
-    const { displayValue, prevValue, inputDigit } = this.state;
+    const { displayValue } = this.state;
     return (
       <div>
-        <div>{inputDigit}</div>
+        <div>{displayValue}</div>
         <div>
           {console.log(this.state)}
           <button onClick={() => this.inputDigit(1)}>1</button>
