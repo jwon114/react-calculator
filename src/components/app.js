@@ -8,7 +8,7 @@ export default class App extends Component {
     super(props);
     this.state = {
       prevValue: '',
-      waitingForOperand: false,
+      waitingForOperand: true,
       displayValue: '0',
       operator: '',
     };
@@ -17,33 +17,53 @@ export default class App extends Component {
   inputDigit(digit) {
     const { displayValue, waitingForOperand } = this.state;
 
-    if (waitingForOperand) {
-      this.setState({ displayValue: String(digit), waitingForOperand: false });
+    if (!waitingForOperand) {
+      this.setState({ prevValue: displayValue, displayValue: String(digit), waitingForOperand: true });
     } else {
       this.setState({ displayValue: displayValue === '0' ? String(digit) : displayValue + digit });
     }
   }
 
-  handleOperator(operator) {
-    const { displayValue, prevValue } = this.state;
+  handleOperator(operatorInput) {
+    const { prevValue } = this.state;
 
-    this.setState({ waitingForOperand: true });
+    this.setState({ waitingForOperand: false, operator: operatorInput });
+    if (prevValue !== '') {
+      this.performOperation();
+    }
+  }
 
-    if (prevValue === 0) {
-      this.setState({ operator, prevValue: displayValue });
-    } else {
-      switch (operator) {
-        case '+':
-          this.add(prevValue, displayValue);
-          break;
-        default:
-          this.setState({ displayValue: '' });
-      }
+  performOperation() {
+    const { operator, prevValue, displayValue } = this.state;
+
+    switch (operator) {
+      case '+':
+        this.add(prevValue, displayValue);
+        break;
+      default:
+        break;
+    }
+    // waiting for digit input after operation
+    this.setState({ waitingForOperand: false });
+  }
+
+  clear() {
+    // reset all to original state
+    this.setState({ prevValue: '', waitingForOperand: false, displayValue: '0', operator: '' });
+  }
+
+  equals() {
+    const { operator } = this.state;
+
+    if (operator !== '') {
+      this.performOperation();
+      // reset the previous value and operator on equals to start a new equation
+      this.setState({ operator: '', prevValue: '' });
     }
   }
 
   add(prevNum, nextNum) {
-    this.setState({ displayValue: prevNum + nextNum });
+    this.setState({ displayValue: String(Number(prevNum) + Number(nextNum)) });
   }
 
   render() {
@@ -53,10 +73,11 @@ export default class App extends Component {
         <div>{displayValue}</div>
         <div>
           {console.log(this.state)}
+          <button onClick={() => this.clear()}>C</button>
           <button onClick={() => this.inputDigit(1)}>1</button>
           <button onClick={() => this.inputDigit(2)}>2</button>
           <button onClick={() => this.handleOperator('+')}>+</button>
-          <button onClick={() => this.handleOperator('=')}>=</button>
+          <button onClick={() => this.equals()}>=</button>
         </div>
       </div>
     );
