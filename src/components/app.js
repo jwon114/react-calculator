@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { buttonPress } from '../actions/index';
 import Style from '../../style/style.css';
+import CalculatorButton from './CalculatorButton/CalculatorButton';
 
 export default class App extends Component {
 
@@ -83,16 +84,16 @@ export default class App extends Component {
             <button onClick={() => this.clear()}>C</button>
           </div>
           <div className={Style.digitKeys}>
-            <button onClick={() => this.inputDigit(1)}>1</button>
-            <button onClick={() => this.inputDigit(2)}>2</button>
-            <button onClick={() => this.inputDigit(3)}>3</button>
-            <button onClick={() => this.inputDigit(4)}>4</button>
-            <button onClick={() => this.inputDigit(5)}>5</button>
-            <button onClick={() => this.inputDigit(6)}>6</button>
-            <button onClick={() => this.inputDigit(7)}>7</button>
-            <button onClick={() => this.inputDigit(8)}>8</button>
-            <button onClick={() => this.inputDigit(9)}>9</button>
-            <button onClick={() => this.inputDigit(0)}>0</button>
+            <CalculatorButton handleClick={() => this.inputDigit(0)} button={0} />
+            <CalculatorButton handleClick={() => this.inputDigit(1)} button={1} />
+            <CalculatorButton handleClick={() => this.inputDigit(2)} button={2} />
+            <CalculatorButton handleClick={() => this.inputDigit(3)} button={3} />
+            <CalculatorButton handleClick={() => this.inputDigit(4)} button={4} />
+            <CalculatorButton handleClick={() => this.inputDigit(5)} button={5} />
+            <CalculatorButton handleClick={() => this.inputDigit(6)} button={6} />
+            <CalculatorButton handleClick={() => this.inputDigit(7)} button={7} />
+            <CalculatorButton handleClick={() => this.inputDigit(8)} button={8} />
+            <CalculatorButton handleClick={() => this.inputDigit(9)} button={9} />
           </div>
           <div className={Style.operators}>
             <button onClick={() => this.handleOperator('+')}>+</button>

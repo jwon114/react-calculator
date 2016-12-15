@@ -9,6 +9,13 @@
 
 }
 
+.digitKeys {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap-reverse;
+  width: 200px;
+}
+
 .display {
   height: 100px;
   width: 200px;
