@@ -1,8 +1,20 @@
-.main {
+.calculator {
   display: flex;
-
+  height: 400px;
+  width: 200px;
+  flex-direction: column;
 }
 
 .operators {
+
+}
+
+.display {
+  height: 100px;
+  width: 200px;
+}
+
+.keypad {
+  display: flex;
 
 }

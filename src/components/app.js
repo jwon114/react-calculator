@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { buttonPress } from '../actions/index';
+import Style from '../../style/style.css';
 
 export default class App extends Component {
 
@@ -8,7 +9,7 @@ export default class App extends Component {
     super(props);
     this.state = {
       prevValue: '',
-      waitingForOperand: true,
+      waitingForOperand: false,
       displayValue: '0',
       operator: '',
     };
@@ -27,7 +28,7 @@ export default class App extends Component {
   handleOperator(operatorInput) {
     const { prevValue } = this.state;
 
-    this.setState({ waitingForOperand: false, operator: operatorInput });
+    this.setState({ operator: operatorInput });
     if (prevValue !== '') {
       this.performOperation();
     }
@@ -43,8 +44,8 @@ export default class App extends Component {
       default:
         break;
     }
-    // waiting for digit input after operation
-    this.setState({ waitingForOperand: false });
+    // waiting for digit input after operation, clear the previous value
+    this.setState({ prevValue: '', waitingForOperand: false });
   }
 
   clear() {
@@ -58,7 +59,7 @@ export default class App extends Component {
     if (operator !== '') {
       this.performOperation();
       // reset the previous value and operator on equals to start a new equation
-      this.setState({ operator: '', prevValue: '' });
+      this.setState({ operator: '' });
     }
   }
 
@@ -69,15 +70,29 @@ export default class App extends Component {
   render() {
     const { displayValue } = this.state;
     return (
-      <div>
-        <div>{displayValue}</div>
-        <div>
+      <div className={Style.calculator}>
+        <div className={Style.display}>{displayValue}</div>
+        <div className={Style.keypad}>
           {console.log(this.state)}
-          <button onClick={() => this.clear()}>C</button>
-          <button onClick={() => this.inputDigit(1)}>1</button>
-          <button onClick={() => this.inputDigit(2)}>2</button>
-          <button onClick={() => this.handleOperator('+')}>+</button>
-          <button onClick={() => this.equals()}>=</button>
+          <div className={Style.functionKeys}>
+            <button onClick={() => this.clear()}>C</button>
+          </div>
+          <div className={Style.digitKeys}>
+            <button onClick={() => this.inputDigit(1)}>1</button>
+            <button onClick={() => this.inputDigit(2)}>2</button>
+            <button onClick={() => this.inputDigit(3)}>3</button>
+            <button onClick={() => this.inputDigit(4)}>4</button>
+            <button onClick={() => this.inputDigit(5)}>5</button>
+            <button onClick={() => this.inputDigit(6)}>6</button>
+            <button onClick={() => this.inputDigit(7)}>7</button>
+            <button onClick={() => this.inputDigit(8)}>8</button>
+            <button onClick={() => this.inputDigit(9)}>9</button>
+            <button onClick={() => this.inputDigit(0)}>0</button>
+          </div>
+          <div className={Style.operators}>
+            <button onClick={() => this.handleOperator('+')}>+</button>
+            <button onClick={() => this.equals()}>=</button>
+          </div>
         </div>
       </div>
     );
