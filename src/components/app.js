@@ -39,7 +39,16 @@ export default class App extends Component {
 
     switch (operator) {
       case '+':
-        this.add(prevValue, displayValue);
+        this.setState({ displayValue: String(Number(prevValue) + Number(displayValue)) });
+        break;
+      case '-':
+        this.setState({ displayValue: String(Number(prevValue) - Number(displayValue)) });
+        break;
+      case '*':
+        this.setState({ displayValue: String(Number(prevValue) * Number(displayValue)) });
+        break;
+      case '/':
+        this.setState({ displayValue: String(Number(prevValue) / Number(displayValue)) });
         break;
       default:
         break;
@@ -61,10 +70,6 @@ export default class App extends Component {
       // reset the previous value and operator on equals to start a new equation
       this.setState({ operator: '' });
     }
-  }
-
-  add(prevNum, nextNum) {
-    this.setState({ displayValue: String(Number(prevNum) + Number(nextNum)) });
   }
 
   render() {
@@ -91,6 +96,9 @@ export default class App extends Component {
           </div>
           <div className={Style.operators}>
             <button onClick={() => this.handleOperator('+')}>+</button>
+            <button onClick={() => this.handleOperator('-')}>-</button>
+            <button onClick={() => this.handleOperator('*')}>*</button>
+            <button onClick={() => this.handleOperator('/')}>/</button>
             <button onClick={() => this.equals()}>=</button>
           </div>
         </div>
