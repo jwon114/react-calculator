@@ -19,17 +19,25 @@ export default class App extends Component {
   inputDigit(digit) {
     const { displayValue, waitingForOperand } = this.state;
 
-    if (!waitingForOperand) {
-      this.setState({ prevValue: displayValue, displayValue: String(digit), waitingForOperand: true });
+    if (waitingForOperand) {
+      this.setState({ prevValue: displayValue, displayValue: String(digit), waitingForOperand: false });
     } else {
       this.setState({ displayValue: displayValue === '0' ? String(digit) : displayValue + digit });
+    }
+  }
+
+  inputDot() {
+    const { displayValue } = this.state;
+
+    if (!(/\./).test(displayValue)) {
+      this.setState({ displayValue: displayValue + '.', waitingForOperand: false });
     }
   }
 
   handleOperator(operatorInput) {
     const { prevValue } = this.state;
 
-    this.setState({ operator: operatorInput });
+    this.setState({ operator: operatorInput, waitingForOperand: true });
     if (prevValue !== '') {
       this.performOperation();
     }
@@ -55,7 +63,7 @@ export default class App extends Component {
         break;
     }
     // waiting for digit input after operation, clear the previous value
-    this.setState({ prevValue: '', waitingForOperand: false });
+    this.setState({ prevValue: '' });
   }
 
   clear() {
@@ -85,6 +93,7 @@ export default class App extends Component {
           </div>
           <div className={Style.digitKeys}>
             <CalculatorButton handleClick={() => this.inputDigit(0)} button={0} />
+            <CalculatorButton handleClick={() => this.inputDot()} button={'●'} />
             <CalculatorButton handleClick={() => this.inputDigit(1)} button={1} />
             <CalculatorButton handleClick={() => this.inputDigit(2)} button={2} />
             <CalculatorButton handleClick={() => this.inputDigit(3)} button={3} />

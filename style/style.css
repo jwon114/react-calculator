@@ -1,6 +1,6 @@
 .calculator {
   display: flex;
-  height: 400px;
+  height: 200px;
   width: 200px;
   flex-direction: column;
 }
@@ -17,7 +17,7 @@
 }
 
 .display {
-  height: 100px;
+  height: 75px;
   width: 200px;
 }
 
